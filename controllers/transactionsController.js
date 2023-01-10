@@ -2,7 +2,6 @@
 const express = require("express");
 const transactions = express.Router();
 const transactionsArray = require("../models/transactions");
-const { validateURL } = require("../validations/validations");
 
 //ROUTES
 
@@ -32,16 +31,17 @@ transactions.post("/", (req, res) => {
 //PUT route
 transactions.put("/:id", (req, res) => {
   const { id } = req.params;
-  const foundIndex = transactionsArray.filter((element, index) => {
-    element.id === id;
-    return index;
+
+  const foundTransaction = transactionsArray.find((element) => {
+    return element.id === id;
   });
 
-  if (foundIndex) {
+  if(foundTransaction){
+    const foundIndex = transactionsArray.indexOf(foundTransaction);
     transactionsArray[foundIndex] = req.body;
     res.status(200).json(transactionsArray[foundIndex]);
   } else {
-    res.status(404).json({ error: "No page found" });
+    res.status(404).json({error: `${id} page not found`})
   }
 });
 
