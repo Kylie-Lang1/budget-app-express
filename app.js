@@ -6,9 +6,10 @@ const transactionsController = require("./controllers/transactionsController")
 
 //CONFIGURATION
 const app = express()
-app.use("/transactions", transactionsController)
 app.use(express.json())
+app.use(cors())
 app.use(morgan("tiny"))
+app.use("/transactions", transactionsController)
 
 //ROUTES
 app.get("/", (req, res) => {
